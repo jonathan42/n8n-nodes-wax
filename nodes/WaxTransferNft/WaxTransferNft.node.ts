@@ -4,7 +4,7 @@ import { TextEncoder, TextDecoder } from 'util';
 import { Api, JsonRpc } from 'eosjs';
 import { JsSignatureProvider } from 'eosjs/dist/eosjs-jssig';
 
-export class TransferNft implements INodeType {
+export class WaxTransferNft implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'WAX Transfer NFT',
 		name: 'waxTransferNft',

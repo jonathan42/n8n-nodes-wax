@@ -15,7 +15,7 @@ interface WaxAsset {
 	schema_name: string;
 }
 
-export class GetAssets implements INodeType {
+export class WaxGetAssets implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'WAX Get Assets',
 		name: 'waxGetAssets',
@@ -91,7 +91,8 @@ export class GetAssets implements INodeType {
 			let result: { next_key: null|string, more: boolean, rows?: Array<any>} = { next_key: null, more: true };
 
 			do {
-				result = await wax.api.rpc.get_table_rows({
+				// @ts-ignore
+				result = await wax.rpc.get_table_rows({
 					json: true,
 					code,
 					scope: account,

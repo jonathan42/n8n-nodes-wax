@@ -7,7 +7,7 @@ import {
 } from 'n8n-workflow';
 import axios from 'axios';
 
-export class GetWaxBalance implements INodeType {
+export class WaxGetBalance implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'WAX Get Balance',
 		name: 'waxGetBalance',

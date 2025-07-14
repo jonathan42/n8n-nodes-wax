@@ -12,7 +12,7 @@ interface Balances {
 	[token: string]: number;
 }
 
-export class GetTokenBalances implements INodeType {
+export class WaxGetTokenBalances implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'WAX Get Token Balances',
 		name: 'waxGetTokenBalances',
@@ -67,7 +67,8 @@ export class GetTokenBalances implements INodeType {
 			let result: { next_key: null|string, more: boolean, rows?: Array<any>} = { next_key: null, more: true };
 
 			do {
-				result = await wax.api.rpc.get_table_rows({
+				// @ts-ignore
+				result = await wax.rpc.get_table_rows({
 					json: true,
 					code,
 					scope: account,

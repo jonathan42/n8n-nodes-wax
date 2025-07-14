@@ -2,7 +2,7 @@ import { IExecuteFunctions, INodeTypeDescription, NodeConnectionType } from 'n8n
 import { INodeExecutionData, INodeType } from 'n8n-workflow';
 import axios from 'axios';
 
-export class GetAccountInfo implements INodeType {
+export class WaxGetAccountInfo implements INodeType {
 	description: INodeTypeDescription ={
 		displayName: 'WAX Get Account Info',
 		name: 'waxGetAccountInfo',

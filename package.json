@@ -41,11 +41,11 @@
       "dist/credentials/WaxBlockchainApi.credentials.js"
     ],
     "nodes": [
-      "dist/nodes/GetAccountInfo/GetAccountInfo.node.js",
-      "dist/nodes/GetAssets/GetAssets.node.js",
-      "dist/nodes/GetTokenBalances/GetTokenBalances.node.js",
-      "dist/nodes/GetWaxBalance/GetWaxBalance.node.js",
-      "dist/nodes/TransferNft/TransferNft.node.js"
+      "dist/nodes/WaxGetAccountInfo/WaxGetAccountInfo.node.js",
+      "dist/nodes/WaxGetAssets/WaxGetAssets.node.js",
+      "dist/nodes/WaxGetTokenBalances/WaxGetTokenBalances.node.js",
+      "dist/nodes/WaxGetBalance/WaxGetBalance.node.js",
+      "dist/nodes/WaxTransferNft/WaxTransferNft.node.js"
     ]
   },
   "devDependencies": {
