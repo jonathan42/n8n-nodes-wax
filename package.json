@@ -1,19 +1,24 @@
 {
-  "name": "n8n-nodes-<...>",
+  "name": "n8n-nodes-wax",
   "version": "0.1.0",
-  "description": "",
+  "description": "n8n Community Node Package for the WAX Blockchain",
   "keywords": [
-    "n8n-community-node-package"
+    "n8n",
+    "n8n-community-node-package",
+    "wax",
+    "eosio",
+    "blockchain",
+    "nft"
   ],
   "license": "MIT",
-  "homepage": "",
+  "homepage": "https://github.com/mongus/n8n-nodes-wax",
   "author": {
-    "name": "",
-    "email": ""
+    "name": "Aaron Porter",
+    "email": "aaron@mongus.com"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/<...>/n8n-nodes-<...>.git"
+    "url": "https://github.com/mongus/n8n-nodes-wax"
   },
   "engines": {
     "node": ">=20.15"
@@ -33,15 +38,18 @@
   "n8n": {
     "n8nNodesApiVersion": 1,
     "credentials": [
-      "dist/credentials/ExampleCredentialsApi.credentials.js",
-      "dist/credentials/HttpBinApi.credentials.js"
+      "dist/credentials/WaxBlockchainApi.credentials.js"
     ],
     "nodes": [
-      "dist/nodes/ExampleNode/ExampleNode.node.js",
-      "dist/nodes/HttpBin/HttpBin.node.js"
+      "dist/nodes/GetAccountInfo/GetAccountInfo.node.js",
+      "dist/nodes/GetAssets/GetAssets.node.js",
+      "dist/nodes/GetTokenBalances/GetTokenBalances.node.js",
+      "dist/nodes/GetWaxBalance/GetWaxBalance.node.js",
+      "dist/nodes/TransferNft/TransferNft.node.js"
     ]
   },
   "devDependencies": {
+    "@types/node": "^24.0.13",
     "@typescript-eslint/parser": "~8.32.0",
     "eslint": "^8.57.0",
     "eslint-plugin-n8n-nodes-base": "^1.16.3",
@@ -51,5 +59,10 @@
   },
   "peerDependencies": {
     "n8n-workflow": "*"
+  },
+  "dependencies": {
+    "@waxio/waxjs": "^0.0.15",
+    "axios": "^1.10.0",
+    "eosjs": "^22.1.0"
   }
 }
