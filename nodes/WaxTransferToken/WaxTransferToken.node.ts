@@ -48,6 +48,13 @@ export class WaxTransferToken implements INodeType {
 				description: 'Token symbol (e.g., "WAX")',
 			},
 			{
+				displayName: 'Precision',
+				name: 'precision',
+				type: 'number',
+				default: 8,
+				description: 'Number of decimal places for the token (default is 8)',
+			},
+			{
 				displayName: 'Memo',
 				name: 'memo',
 				type: 'string',
@@ -83,13 +90,14 @@ export class WaxTransferToken implements INodeType {
 			const to = this.getNodeParameter('to', i) as string;
 			const amount = this.getNodeParameter('amount', i) as number;
 			const symbol = this.getNodeParameter('symbol', i) as string;
+			const precision = this.getNodeParameter('precision', i) as number || 8; // Default to 8 if not provided
 			const memo = this.getNodeParameter('memo', i) as string;
 			const endpoint = this.getNodeParameter('endpoint', i) as string;
 			const contract = this.getNodeParameter('contract', i) as string;
 
 			// Format the quantity as "amount symbol" (e.g., "1.00000000 WAX")
 			// Ensure the amount has 8 decimal places for proper formatting
-			const formattedAmount = amount.toFixed(8);
+			const formattedAmount = amount.toFixed(precision);
 			const quantity = `${formattedAmount} ${symbol}`;
 
 			const signatureProvider = new JsSignatureProvider([key]);
