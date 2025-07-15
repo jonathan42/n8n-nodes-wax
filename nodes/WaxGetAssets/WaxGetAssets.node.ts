@@ -39,20 +39,23 @@ export class WaxGetAssets implements INodeType {
 			{
 				displayName: 'Template ID (Optional)',
 				name: 'templateId',
-				type: 'number',
-				default: null,
+				type: 'string',
+				default: '',
+				description: 'Comma-separated list of template IDs',
 			},
 			{
 				displayName: 'Collection (Optional)',
 				name: 'collection',
 				type: 'string',
 				default: '',
+				description: 'Comma-separated list of collections',
 			},
 			{
 				displayName: 'Schema (Optional)',
 				name: 'schema',
 				type: 'string',
 				default: '',
+				description: 'Comma-separated list of schemas',
 			},
 			{
 				displayName: 'Code',
@@ -78,11 +81,16 @@ export class WaxGetAssets implements INodeType {
 
 		for (let i = 0; i < items.length; i++) {
 			const account = this.getNodeParameter('account', i) as string;
-			const templateId = this.getNodeParameter('templateId', i) as number;
-			const collection = this.getNodeParameter('collection', i) as string;
-			const schema = this.getNodeParameter('schema', i) as string;
+			const templateIdInput = this.getNodeParameter('templateId', i) as string;
+			const collectionInput = this.getNodeParameter('collection', i) as string;
+			const schemaInput = this.getNodeParameter('schema', i) as string;
 			const code = this.getNodeParameter('code', i) as string;
 			const endpoint = this.getNodeParameter('endpoint', i) as string;
+
+			// Parse comma-separated values
+			const templateIds = templateIdInput ? templateIdInput.split(',').map(id => parseInt(id.trim())).filter(id => !isNaN(id)) : [];
+			const collections = collectionInput ? collectionInput.split(',').map(c => c.trim()).filter(c => c !== '') : [];
+			const schemas = schemaInput ? schemaInput.split(',').map(s => s.trim()).filter(s => s !== '') : [];
 
 			const wax = new WaxJS(endpoint);
 
@@ -104,10 +112,11 @@ export class WaxGetAssets implements INodeType {
 				});
 
 				result.rows?.forEach((asset: any) => {
+					// Skip if asset doesn't match any of the filter criteria
 					if (
-						(templateId && asset.template_id !== templateId) ||
-						(collection && asset.collection_name !== collection) ||
-						(schema && asset.schema_name !== schema)
+						(templateIds.length > 0 && !templateIds.includes(asset.template_id)) ||
+						(collections.length > 0 && !collections.includes(asset.collection_name)) ||
+						(schemas.length > 0 && !schemas.includes(asset.schema_name))
 					) {
 						return;
 					}
