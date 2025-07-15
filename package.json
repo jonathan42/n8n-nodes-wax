@@ -45,7 +45,8 @@
       "dist/nodes/WaxGetAssets/WaxGetAssets.node.js",
       "dist/nodes/WaxGetTokenBalances/WaxGetTokenBalances.node.js",
       "dist/nodes/WaxGetBalance/WaxGetBalance.node.js",
-      "dist/nodes/WaxTransferNft/WaxTransferNft.node.js"
+      "dist/nodes/WaxTransferNft/WaxTransferNft.node.js",
+      "dist/nodes/WaxTransferToken/WaxTransferToken.node.js"
     ]
   },
   "devDependencies": {
