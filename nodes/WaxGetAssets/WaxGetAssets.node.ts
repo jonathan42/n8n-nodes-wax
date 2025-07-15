@@ -4,6 +4,7 @@ import {
 	INodeType,
 	INodeTypeDescription,
 	NodeConnectionType,
+	NodeOperationError,
 } from 'n8n-workflow';
 
 import {WaxJS} from '@waxio/waxjs/dist';
@@ -111,24 +112,39 @@ export class WaxGetAssets implements INodeType {
 					show_payer: false,
 				});
 
-				result.rows?.forEach((asset: any) => {
-					// Skip if asset doesn't match any of the filter criteria
-					if (
-						(templateIds.length > 0 && !templateIds.includes(asset.template_id)) ||
-						(collections.length > 0 && !collections.includes(asset.collection_name)) ||
-						(schemas.length > 0 && !schemas.includes(asset.schema_name))
-					) {
-						return;
-					}
+				// Check if result has the expected structure
+				if (!result) {
+					throw new NodeOperationError(this.getNode(), 'Empty response from get_table_rows');
+				}
 
-					assets.push({
-						asset_id: asset.asset_id,
-						template_id: asset.template_id,
-						collection_name: asset.collection_name,
-						schema_name: asset.schema_name,
+				if (!result.hasOwnProperty('rows')) {
+					throw new NodeOperationError(this.getNode(), 'Response missing rows property: ' + JSON.stringify(result));
+				}
+
+				// Process the rows if they exist
+				if (result.rows && Array.isArray(result.rows)) {
+					result.rows.forEach((asset: any) => {
+						// Skip if asset doesn't match any of the filter criteria
+						if (
+							(templateIds.length > 0 && !templateIds.includes(asset.template_id)) ||
+							(collections.length > 0 && !collections.includes(asset.collection_name)) ||
+							(schemas.length > 0 && !schemas.includes(asset.schema_name))
+						) {
+							return;
+						}
+
+						assets.push({
+							asset_id: asset.asset_id,
+							template_id: asset.template_id,
+							collection_name: asset.collection_name,
+							schema_name: asset.schema_name,
+						});
 					});
-				});
-			} while (result.more);
+				} else {
+					// If rows is not an array, log the issue but continue
+					console.log(`Warning: result.rows is not an array: ${JSON.stringify(result.rows)}`);
+				}
+			} while (result.more && result.rows);
 
 			returnData.push({
 				json: {
