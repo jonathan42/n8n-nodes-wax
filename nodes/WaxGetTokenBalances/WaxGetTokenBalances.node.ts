@@ -19,7 +19,9 @@ export class WaxGetTokenBalances implements INodeType {
 		icon: 'file:wax.svg',
 		group: ['transform'],
 		version: 1,
-		description: 'Get token balances for an account',
+		// @ts-expect-error - `deprecated` is supported but not in the current type
+		deprecated: true,
+		description: 'This node is deprecated and will be removed in v1.0.0. Use "WAX Get Balance" instead.',
 		defaults: {
 			name: 'Get Token Balances',
 		},
