@@ -14,9 +14,9 @@ export class WaxGetBalance implements INodeType {
 		icon: 'file:wax.svg',
 		group: ['transform'],
 		version: 1,
-		description: 'Get WAX balance for an account',
+		description: 'Get token balance for an account',
 		defaults: {
-			name: 'Get Token Balances',
+			name: 'Get Balance',
 		},
 		inputs: ['main'] as NodeConnectionType[],
 		outputs: ['main'] as NodeConnectionType[],
