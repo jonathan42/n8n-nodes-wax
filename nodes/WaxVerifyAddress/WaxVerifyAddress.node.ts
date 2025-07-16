@@ -15,7 +15,7 @@ export class WaxVerifyAddress implements INodeType {
 		},
 		inputs: ['main'] as NodeConnectionType[],
 		outputs: ['main', 'main'] as NodeConnectionType[],
-		outputNames: ['Valid', 'Invalid'],
+		outputNames: ['valid', 'invalid'],
 		properties: [
 			{
 				displayName: 'Account Name',
