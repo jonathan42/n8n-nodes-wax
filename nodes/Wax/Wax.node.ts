@@ -21,8 +21,8 @@ export class Wax implements INodeType {
 			name: 'WAX',
 		},
 		inputs: ['main'] as NodeConnectionType[],
-		outputs: ['main', 'main'] as NodeConnectionType[],
-		outputNames: ['data', 'invalid'],
+		outputs: ['main'] as NodeConnectionType[],
+		outputNames: ['data'],
 		credentials: [
 			{
 				name: 'waxPrivateKeyApi',
@@ -41,20 +41,17 @@ export class Wax implements INodeType {
 	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
 		const items = this.getInputData();
 		const returnData: INodeExecutionData[] = [];
-		const invalidData: INodeExecutionData[] = [];
 
 		for (let i = 0; i < items.length; i++) {
 			try {
 				const result = await executeOperation.call(this, items, i);
 
-				// Add the result to the appropriate array
+				// Add the result to the returnData array
 				if (result?.returnData) {
 					returnData.push(result.returnData);
 				}
 
-				if (result?.invalidData) {
-					invalidData.push(result.invalidData);
-				}
+				// We no longer use invalidData as everything goes through returnData
 			} catch (error) {
 				if (this.continueOnFail()) {
 					returnData.push({ json: { error: error.message } });
@@ -62,15 +59,6 @@ export class Wax implements INodeType {
 				}
 				throw error;
 			}
-		}
-
-		// Return data based on the operation
-		const resource = this.getNodeParameter('resource', 0) as string;
-		const operation = this.getNodeParameter('operation', 0) as string;
-
-		// Only verifyAddress operation has two outputs
-		if (resource === 'account' && operation === 'verifyAddress') {
-			return [returnData, invalidData];
 		}
 
 		return [returnData];
