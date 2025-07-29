@@ -3,13 +3,14 @@ import axios from 'axios';
 import { Api, JsonRpc } from 'eosjs';
 import { JsSignatureProvider } from 'eosjs/dist/eosjs-jssig';
 import { TextEncoder, TextDecoder } from 'util';
+import { getCredentials } from './util';
 
 // Token resource properties
 export const tokenProperties: INodeProperties[] = [
 	{
 		displayName: 'Operation',
 		name: 'operation',
-		type: 'options',
+		type: 'hidden',
 		noDataExpression: true,
 		displayOptions: {
 			show: {
@@ -18,14 +19,14 @@ export const tokenProperties: INodeProperties[] = [
 		},
 		options: [
 			{
-				name: 'Get Balance',
+				name: 'Get Token Balance',
 				value: 'getBalance',
 				description: 'Get token balance for an account',
 				action: 'Get token balance for an account',
 			},
 			{
-				name: 'Transfer',
-				value: 'transfer',
+				name: 'Transfer Tokens',
+				value: 'transferTokens',
 				description: 'Transfer tokens on the WAX blockchain',
 				action: 'Transfer tokens on the wax blockchain',
 			},
@@ -55,7 +56,7 @@ export const tokenProperties: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['token'],
-				operation: ['getBalance', 'transfer'],
+				operation: ['getBalance', 'transferTokens'],
 			},
 		},
 		description: 'Token contract (e.g., "eosio.token" for WAX)',
@@ -68,7 +69,7 @@ export const tokenProperties: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['token'],
-				operation: ['getBalance', 'transfer'],
+				operation: ['getBalance', 'transferTokens'],
 			},
 		},
 		description: 'Token symbol (e.g., "WAX")',
@@ -83,7 +84,7 @@ export const tokenProperties: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['token'],
-				operation: ['transfer'],
+				operation: ['transferTokens'],
 			},
 		},
 	},
@@ -96,7 +97,7 @@ export const tokenProperties: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['token'],
-				operation: ['transfer'],
+				operation: ['transferTokens'],
 			},
 		},
 		description: 'Amount of tokens to transfer (e.g., 1)',
@@ -109,7 +110,7 @@ export const tokenProperties: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['token'],
-				operation: ['transfer'],
+				operation: ['transferTokens'],
 			},
 		},
 		description: 'Number of decimal places for the token (default is 8)',
@@ -122,7 +123,7 @@ export const tokenProperties: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['token'],
-				operation: ['transfer'],
+				operation: ['transferTokens'],
 			},
 		},
 	},
@@ -158,8 +159,8 @@ export async function executeTokenOperations(
 				json: { account, contract, symbol, balance }
 			}
 		};
-	} else if (operation === 'transfer') {
-		const credentials = await this.getCredentials('waxPrivateKeyApi');
+	} else if (operation === 'transferTokens') {
+		const credentials = await getCredentials(this);
 		const from = credentials.account as string;
 		const key = credentials.privateKey as string;
 

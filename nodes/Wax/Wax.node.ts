@@ -1,12 +1,28 @@
 import {
 	IExecuteFunctions,
-	INodeExecutionData,
+	INodeExecutionData, INodePropertyOptions,
 	INodeType,
 	INodeTypeDescription,
 	NodeConnectionType,
 } from 'n8n-workflow';
 
 import { properties, executeOperation } from './resources';
+
+const subtitle = `={{ ( { ${Object.entries(properties.reduce((acc, prop) => {
+	if (prop.name === 'operation') {
+		prop.options?.forEach(option => {
+			const value = (option as INodePropertyOptions).value;
+			if (value)
+				acc[String(value)] = option.name;
+		});
+	}
+
+	return acc;
+}, {} as {[operation: string]: string }))
+	.map(([key, value]) => `"${key}": "${value}"`)
+	.join(', ') } } )[$parameter["operation"]] }}`;
+
+console.log(subtitle);
 
 export class Wax implements INodeType {
 	description: INodeTypeDescription = {
@@ -15,7 +31,7 @@ export class Wax implements INodeType {
 		icon: 'file:wax.svg',
 		group: ['transform'],
 		version: 1,
-		subtitle: '={{ $parameter["operation"] + ": " + $parameter["resource"] }}',
+		subtitle,//: '={{ $parameter["operation"] + ": " + $parameter["resource"] }}',
 		description: 'Interact with the WAX blockchain',
 		defaults: {
 			name: 'WAX',
@@ -26,13 +42,7 @@ export class Wax implements INodeType {
 		credentials: [
 			{
 				name: 'waxPrivateKeyApi',
-				required: true,
-				displayOptions: {
-					show: {
-						resource: ['token', 'nft'],
-						operation: ['transfer'],
-					},
-				},
+				required: false,
 			},
 		],
 		properties,

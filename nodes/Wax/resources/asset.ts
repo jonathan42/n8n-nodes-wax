@@ -7,7 +7,7 @@ export const assetProperties: INodeProperties[] = [
 	{
 		displayName: 'Operation',
 		name: 'operation',
-		type: 'options',
+		type: 'hidden',
 		noDataExpression: true,
 		displayOptions: {
 			show: {
@@ -18,8 +18,8 @@ export const assetProperties: INodeProperties[] = [
 			{
 				name: 'Get Assets',
 				value: 'getAssets',
-				description: 'Get NFTs for an account',
-				action: 'Get nfts for an account',
+				description: 'Get assets for an account',
+				action: 'Get assets for an account',
 			},
 		],
 		default: 'getAssets',

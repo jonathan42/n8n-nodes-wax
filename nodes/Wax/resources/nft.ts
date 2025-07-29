@@ -2,13 +2,14 @@ import { IExecuteFunctions, INodeExecutionData, INodeProperties } from 'n8n-work
 import { Api, JsonRpc } from 'eosjs';
 import { JsSignatureProvider } from 'eosjs/dist/eosjs-jssig';
 import { TextEncoder, TextDecoder } from 'util';
+import { getCredentials } from './util';
 
 // NFT resource properties
 export const nftProperties: INodeProperties[] = [
 	{
 		displayName: 'Operation',
 		name: 'operation',
-		type: 'options',
+		type: 'hidden',
 		noDataExpression: true,
 		displayOptions: {
 			show: {
@@ -17,13 +18,13 @@ export const nftProperties: INodeProperties[] = [
 		},
 		options: [
 			{
-				name: 'Transfer',
-				value: 'transfer',
-				description: 'Transfer an NFT on the WAX blockchain',
-				action: 'Transfer an nft on the wax blockchain',
+				name: 'Transfer NFTs',
+				value: 'transferNfts',
+				description: 'Transfer NFTs on the WAX blockchain',
+				action: 'Transfer NFTs on the WAX blockchain',
 			},
 		],
-		default: 'transfer',
+		default: 'transferNfts',
 	},
 	// NFT transfer parameters
 	{
@@ -35,7 +36,7 @@ export const nftProperties: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['nft'],
-				operation: ['transfer'],
+				operation: ['transferNfts'],
 			},
 		},
 	},
@@ -48,7 +49,7 @@ export const nftProperties: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['nft'],
-				operation: ['transfer'],
+				operation: ['transferNfts'],
 			},
 		},
 	},
@@ -60,7 +61,7 @@ export const nftProperties: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['nft'],
-				operation: ['transfer'],
+				operation: ['transferNfts'],
 			},
 		},
 	},
@@ -72,7 +73,7 @@ export const nftProperties: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['nft'],
-				operation: ['transfer'],
+				operation: ['transferNfts'],
 			},
 		},
 	},
@@ -87,8 +88,8 @@ export async function executeNftOperations(
 	const operation = this.getNodeParameter('operation', i) as string;
 	const endpoint = this.getNodeParameter('endpoint', i) as string;
 
-	if (operation === 'transfer') {
-		const credentials = await this.getCredentials('waxPrivateKeyApi');
+	if (operation === 'transferNfts') {
+		const credentials = await getCredentials(this);
 		const from = credentials.account as string;
 		const key = credentials.privateKey as string;
 

@@ -21,7 +21,7 @@ export const commonProperties: INodeProperties[] = [
 	{
 		displayName: 'Resource',
 		name: 'resource',
-		type: 'options',
+		type: 'hidden',
 		noDataExpression: true,
 		options: [
 			{
