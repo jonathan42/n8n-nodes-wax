@@ -29,10 +29,6 @@ export const commonProperties: INodeProperties[] = [
 				value: 'account',
 			},
 			{
-				name: 'Asset',
-				value: 'asset',
-			},
-			{
 				name: 'Token',
 				value: 'token',
 			},

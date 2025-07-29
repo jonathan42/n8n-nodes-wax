@@ -21,8 +21,7 @@ export const accountProperties: INodeProperties[] = [
 			{
 				name: 'Buy RAM',
 				value: 'buyRam',
-				description: 'Buy RAM on the WAX blockchain',
-				action: 'Buy RAM on the WAX blockchain',
+				action: 'Buy RAM',
 			},
 			{
 				name: 'Get Account Info',

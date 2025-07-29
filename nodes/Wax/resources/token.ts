@@ -21,14 +21,13 @@ export const tokenProperties: INodeProperties[] = [
 			{
 				name: 'Get Token Balance',
 				value: 'getBalance',
-				description: 'Get token balance for an account',
-				action: 'Get token balance for an account',
+				action: 'Get token balance',
 			},
 			{
 				name: 'Transfer Tokens',
 				value: 'transferTokens',
-				description: 'Transfer tokens on the WAX blockchain',
-				action: 'Transfer tokens on the wax blockchain',
+				description: 'Transfer tokens to another account',
+				action: 'Transfer tokens to another account',
 			},
 		],
 		default: 'getBalance',

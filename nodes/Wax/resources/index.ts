@@ -2,14 +2,12 @@ import { IExecuteFunctions, INodeExecutionData, INodeProperties } from 'n8n-work
 
 import { commonProperties } from './common';
 import { accountProperties, executeAccountOperations } from './account';
-import { assetProperties, executeAssetOperations } from './asset';
 import { tokenProperties, executeTokenOperations } from './token';
 import { nftProperties, executeNftOperations } from './nft';
 
 export const properties: INodeProperties[] = [
 	...commonProperties,
 	...accountProperties,
-	...assetProperties,
 	...tokenProperties,
 	...nftProperties,
 ];
@@ -23,8 +21,6 @@ export async function executeOperation(
 
 	if (resource === 'account') {
 		return await executeAccountOperations.call(this, items, i);
-	} else if (resource === 'asset') {
-		return await executeAssetOperations.call(this, items, i);
 	} else if (resource === 'token') {
 		return await executeTokenOperations.call(this, items, i);
 	} else if (resource === 'nft') {
