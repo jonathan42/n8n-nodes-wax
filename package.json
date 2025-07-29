@@ -26,7 +26,7 @@
   "main": "index.js",
   "scripts": {
     "build": "npx rimraf dist && tsc && gulp build:icons",
-    "dev": "nodemon --watch src --ext js,ts,json --exec \"npm run build && N8N_PORT=56789 n8n start\"",
+    "dev": "nodemon --watch nodes --ext js,ts,json --exec \"npm run build && N8N_PORT=56789 n8n start\"",
     "format": "prettier nodes credentials --write",
     "lint": "eslint nodes credentials package.json",
     "lintfix": "eslint nodes credentials package.json --fix",
