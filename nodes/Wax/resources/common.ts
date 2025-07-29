@@ -33,8 +33,8 @@ export const commonProperties: INodeProperties[] = [
 				value: 'token',
 			},
 			{
-				name: 'NFT',
-				value: 'nft',
+				name: 'Asset',
+				value: 'asset',
 			},
 		],
 		default: 'account',

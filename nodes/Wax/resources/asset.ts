@@ -6,8 +6,8 @@ import { getCredentials } from './util';
 import { WaxJS } from '@waxio/waxjs/dist';
 import { WaxAsset } from './common';
 
-// NFT resource properties
-export const nftProperties: INodeProperties[] = [
+// Asset resource properties
+export const assetProperties: INodeProperties[] = [
 	{
 		displayName: 'Operation',
 		name: 'operation',
@@ -15,24 +15,24 @@ export const nftProperties: INodeProperties[] = [
 		noDataExpression: true,
 		displayOptions: {
 			show: {
-				resource: ['nft'],
+				resource: ['asset'],
 			},
 		},
 		options: [
 			{
-				name: 'Get NFTs',
-				value: 'getNfts',
-				description: 'Get a list of NFTs owned by an account',
-				action: 'Get a list of NFTs owned by an account',
+				name: 'Get Assets',
+				value: 'getAssets',
+				description: 'Get a list of assets owned by an account',
+				action: 'Get a list of assets owned by an account',
 			},
 			{
-				name: 'Transfer NFTs',
-				value: 'transferNfts',
-				description: 'Transfer NFTs to another account',
-				action: 'Transfer NFTs to another account',
+				name: 'Transfer Assets',
+				value: 'transferAssets',
+				description: 'Transfer assets to another account',
+				action: 'Transfer assets to another account',
 			},
 		],
-		default: 'getNfts',
+		default: 'getAssets',
 	},
 	{
 		displayName: 'Account Name',
@@ -42,8 +42,8 @@ export const nftProperties: INodeProperties[] = [
 		required: true,
 		displayOptions: {
 			show: {
-				resource: ['nft'],
-				operation: ['getNfts'],
+				resource: ['asset'],
+				operation: ['getAssets'],
 			},
 		},
 		description: 'WAX account name',
@@ -55,8 +55,8 @@ export const nftProperties: INodeProperties[] = [
 		default: '',
 		displayOptions: {
 			show: {
-				resource: ['nft'],
-				operation: ['getNfts'],
+				resource: ['asset'],
+				operation: ['getAssets'],
 			},
 		},
 		description: 'Comma-separated list of template IDs',
@@ -68,8 +68,8 @@ export const nftProperties: INodeProperties[] = [
 		default: '',
 		displayOptions: {
 			show: {
-				resource: ['nft'],
-				operation: ['getNfts'],
+				resource: ['asset'],
+				operation: ['getAssets'],
 			},
 		},
 		description: 'Comma-separated list of collections',
@@ -81,8 +81,8 @@ export const nftProperties: INodeProperties[] = [
 		default: '',
 		displayOptions: {
 			show: {
-				resource: ['nft'],
-				operation: ['getNfts'],
+				resource: ['asset'],
+				operation: ['getAssets'],
 			},
 		},
 		description: 'Comma-separated list of schemas',
@@ -95,12 +95,12 @@ export const nftProperties: INodeProperties[] = [
 		required: true,
 		displayOptions: {
 			show: {
-				resource: ['nft'],
-				operation: ['getNfts'],
+				resource: ['asset'],
+				operation: ['getAssets'],
 			},
 		},
 	},
-	// NFT transfer parameters
+	// Asset transfer parameters
 	{
 		displayName: 'To Account',
 		name: 'to',
@@ -109,8 +109,8 @@ export const nftProperties: INodeProperties[] = [
 		required: true,
 		displayOptions: {
 			show: {
-				resource: ['nft'],
-				operation: ['transferNfts'],
+				resource: ['asset'],
+				operation: ['transferAssets'],
 			},
 		},
 	},
@@ -122,8 +122,8 @@ export const nftProperties: INodeProperties[] = [
 		required: true,
 		displayOptions: {
 			show: {
-				resource: ['nft'],
-				operation: ['transferNfts'],
+				resource: ['asset'],
+				operation: ['transferAssets'],
 			},
 		},
 	},
@@ -134,8 +134,8 @@ export const nftProperties: INodeProperties[] = [
 		default: 'atomicassets',
 		displayOptions: {
 			show: {
-				resource: ['nft'],
-				operation: ['transferNfts'],
+				resource: ['asset'],
+				operation: ['transferAssets'],
 			},
 		},
 	},
@@ -146,15 +146,15 @@ export const nftProperties: INodeProperties[] = [
 		default: '',
 		displayOptions: {
 			show: {
-				resource: ['nft'],
-				operation: ['transferNfts'],
+				resource: ['asset'],
+				operation: ['transferAssets'],
 			},
 		},
 	},
 ];
 
-// NFT operations execution
-export async function executeNftOperations(
+// Asset operations execution
+export async function executeAssetOperations(
 	this: IExecuteFunctions,
 	items: INodeExecutionData[],
 	i: number,
@@ -162,7 +162,7 @@ export async function executeNftOperations(
 	const operation = this.getNodeParameter('operation', i) as string;
 	const endpoint = this.getNodeParameter('endpoint', i) as string;
 
-	if (operation === 'getNfts') {
+	if (operation === 'getAssets') {
 		const account = this.getNodeParameter('account', i) as string;
 		const templateIdInput = this.getNodeParameter('templateId', i) as string;
 		const collectionInput = this.getNodeParameter('collection', i) as string;
@@ -235,7 +235,7 @@ export async function executeNftOperations(
 				}
 			}
 		};
-	} else if (operation === 'transferNfts') {
+	} else if (operation === 'transferAssets') {
 		const credentials = await getCredentials(this);
 		const from = credentials.account as string;
 		const key = credentials.privateKey as string;
