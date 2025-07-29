@@ -22,8 +22,6 @@ const subtitle = `={{ ( { ${Object.entries(properties.reduce((acc, prop) => {
 	.map(([key, value]) => `"${key}": "${value}"`)
 	.join(', ') } } )[$parameter["operation"]] }}`;
 
-console.log(subtitle);
-
 export class Wax implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'WAX',
