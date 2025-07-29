@@ -6,6 +6,7 @@ import { JsSignatureProvider } from 'eosjs/dist/eosjs-jssig';
 
 export class WaxTransferToken implements INodeType {
 	description: INodeTypeDescription = {
+		hidden: true,
 		displayName: 'WAX Transfer Token',
 		name: 'waxTransferToken',
 		icon: 'file:wax.svg',

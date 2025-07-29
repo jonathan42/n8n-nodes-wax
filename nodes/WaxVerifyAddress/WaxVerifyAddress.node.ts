@@ -4,6 +4,7 @@ import axios from 'axios';
 
 export class WaxVerifyAddress implements INodeType {
 	description: INodeTypeDescription = {
+		hidden: true,
 		displayName: 'WAX Verify Address',
 		name: 'waxVerifyAddress',
 		icon: 'file:wax.svg',

@@ -9,6 +9,7 @@ import axios from 'axios';
 
 export class WaxGetBalance implements INodeType {
 	description: INodeTypeDescription = {
+		hidden: true,
 		displayName: 'WAX Get Balance',
 		name: 'waxGetBalance',
 		icon: 'file:wax.svg',

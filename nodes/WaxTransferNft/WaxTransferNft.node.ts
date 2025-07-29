@@ -6,6 +6,7 @@ import { JsSignatureProvider } from 'eosjs/dist/eosjs-jssig';
 
 export class WaxTransferNft implements INodeType {
 	description: INodeTypeDescription = {
+		hidden: true,
 		displayName: 'WAX Transfer NFT',
 		name: 'waxTransferNft',
 		icon: 'file:wax.svg',

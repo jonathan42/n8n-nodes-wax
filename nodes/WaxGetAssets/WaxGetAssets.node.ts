@@ -18,6 +18,7 @@ interface WaxAsset {
 
 export class WaxGetAssets implements INodeType {
 	description: INodeTypeDescription = {
+		hidden: true,
 		displayName: 'WAX Get Assets',
 		name: 'waxGetAssets',
 		icon: 'file:wax.svg',

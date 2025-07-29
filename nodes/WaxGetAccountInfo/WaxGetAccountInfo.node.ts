@@ -4,6 +4,7 @@ import axios from 'axios';
 
 export class WaxGetAccountInfo implements INodeType {
 	description: INodeTypeDescription ={
+		hidden: true,
 		displayName: 'WAX Get Account Info',
 		name: 'waxGetAccountInfo',
 		icon: 'file:wax.svg',
