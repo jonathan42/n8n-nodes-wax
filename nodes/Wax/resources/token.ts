@@ -19,9 +19,9 @@ export const tokenProperties: INodeProperties[] = [
 		},
 		options: [
 			{
-				name: 'Get Token Balance',
+				name: 'Get Account Token Balance',
 				value: 'getBalance',
-				action: 'Get token balance',
+				action: 'Get account token balance',
 			},
 			{
 				name: 'Transfer Tokens',
