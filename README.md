@@ -95,6 +95,9 @@ For Stake CPU and Stake NET operations:
 
 ## Version history
 
+### 0.1.7
+- Hide deprecated nodes from the UI search but keep them for backward compatibility for existing workflows
+
 ### 0.1.6
 - Refactored terminology: renamed NFT to Asset throughout the codebase
 - Enhanced token balance options for improved clarity and consistency
