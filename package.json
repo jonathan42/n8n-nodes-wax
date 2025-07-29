@@ -41,6 +41,7 @@
       "dist/credentials/WaxBlockchainApi.credentials.js"
     ],
     "nodes": [
+      "dist/nodes/Wax/Wax.node.js",
       "dist/nodes/WaxGetAccountInfo/WaxGetAccountInfo.node.js",
       "dist/nodes/WaxGetAssets/WaxGetAssets.node.js",
       "dist/nodes/WaxGetBalance/WaxGetBalance.node.js",
