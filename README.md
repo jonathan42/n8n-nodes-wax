@@ -4,7 +4,7 @@ This is an n8n community node. It lets you use the WAX Blockchain in your n8n wo
 
 The WAX Blockchain is a purpose-built blockchain and protocol token designed to make e-commerce transactions faster, easier, and safer for all participants. It's specifically designed for the transfer of digital assets, including NFTs (Non-Fungible Tokens).
 
-[n8n](https://n8n.io/) is a [fair-code licensed](https://docs.n8n.io/reference/license/) workflow automation platform.
+[n8n](https://n8n.io/) is a [fair-code licensed](https://docs.n8n.io/about/license/) workflow automation platform.
 
 [Installation](#installation)  
 [Operations](#operations)  
@@ -12,7 +12,7 @@ The WAX Blockchain is a purpose-built blockchain and protocol token designed to 
 [Compatibility](#compatibility)  
 [Usage](#usage)  
 [Resources](#resources)  
-[Version history](#version-history)  
+[Version history](#version-history)
 
 ## Installation
 
@@ -24,14 +24,17 @@ This node package provides the following operations for interacting with the WAX
 
 - **Get Account Info**: Fetch detailed account information from the WAX blockchain
 - **Get Assets**: Retrieve NFT assets owned by an account, with optional filtering by template ID, collection, or schema
-- **Get Balance**: Get token balance for an account
-- **Transfer NFT**: Transfer NFT assets from one account to another
-- **Transfer Token**: Transfer tokens (e.g., WAX) from one account to another
-- **Verify Address**: Verify if an account exists on the WAX blockchain
+- **Get Account Token Balance**: Get token balance for an account
+- **Transfer Assets**: Transfer NFT assets from one account to another
+- **Transfer Tokens**: Transfer tokens (e.g., WAX) from one account to another
+- **Verify Account**: Verify if an account exists on the WAX blockchain
+- **Buy RAM**: Purchase RAM resources for an account on the WAX blockchain
+- **Stake CPU**: Stake WAX tokens for CPU resources on the blockchain
+- **Stake NET**: Stake WAX tokens for network bandwidth resources on the blockchain
 
 ## Credentials
 
-For operations that require signing transactions (Transfer Token and Transfer NFT), you'll need to provide:
+For operations that require signing transactions (Transfer Tokens, Transfer Assets, Buy RAM, Stake CPU, and Stake NET), you'll need to provide:
 
 - **Account Name**: Your WAX account name
 - **Private Key**: The private key associated with your WAX account
@@ -57,28 +60,48 @@ All nodes allow you to specify the API endpoint to use. The default is `https://
 
 ### Working with NFTs
 
-When transferring NFTs, you'll need to provide:
+When using Transfer Assets operation, you'll need to provide:
 - The recipient account name
 - Asset IDs (comma-separated list)
 - Contract (defaults to "atomicassets")
 
-You can use the Get Assets node to find the asset IDs of NFTs owned by an account.
+You can use the Get Assets operation to find the asset IDs of NFTs owned by an account.
 
 ### Token Operations
 
-For token operations, you can specify:
+For Transfer Tokens and Get Account Token Balance operations, you can specify:
 - Token contract (defaults to "eosio.token" for WAX)
 - Token symbol (defaults to "WAX")
 - Precision (number of decimal places, defaults to 8)
 
+### Resource Management Operations
+
+The WAX blockchain requires resources (RAM, CPU, and NET) to perform actions:
+
+For Buy RAM operation:
+- Specify the account that will receive the RAM
+- Specify the amount of WAX to spend on RAM
+
+For Stake CPU and Stake NET operations:
+- Specify the account that will receive the staked resources
+- Specify the amount of WAX to stake
+
 ## Resources
 
 * [n8n community nodes documentation](https://docs.n8n.io/integrations/#community-nodes)
-* [WAX Developer Portal](https://developer.wax.io/)
+* [WAX Developer Portal](https://docs.wax.io/)
 * [WAX Blockchain GitHub](https://github.com/worldwide-asset-exchange/wax-blockchain)
-* [EOSIO Developer Documentation](https://developers.eos.io/)
+* [EOS Network Documentation](https://docs.eosnetwork.com/)
 
 ## Version history
+
+### 0.1.6
+- Refactored terminology: renamed NFT to Asset throughout the codebase
+- Enhanced token balance options for improved clarity and consistency
+- Combined assets and NFTs functionality for better integration
+- Improved WAX operations with new functionalities and credential management
+- Refined account verification logic and simplified output handling
+- Restructured codebase with resource operations extracted into separate files
 
 ### 0.1.5
 - Initial public release
