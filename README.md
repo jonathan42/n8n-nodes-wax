@@ -85,6 +85,7 @@ For Buy RAM operation:
 For Stake CPU and Stake NET operations:
 - Specify the account that will receive the staked resources
 - Specify the amount of WAX to stake
+- Option to transfer ownership of staked resources to the recipient account (when enabled, the recipient account gains control of the staked tokens)
 
 ## Resources
 
