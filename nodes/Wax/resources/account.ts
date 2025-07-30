@@ -193,7 +193,7 @@ export async function executeAccountOperations(
 				}
 			}];
 		}
-console.log(actions);
+
 		try {
 			// Setup eosjs
 			const key = credentials.privateKey as string;
