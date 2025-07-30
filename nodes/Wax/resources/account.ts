@@ -200,7 +200,7 @@ export async function executeAccountOperations(
 					receiver: account,
 					stake_net_quantity: `${netAmount} WAX`,
 					stake_cpu_quantity: `${cpuAmount} WAX`,
-					transfer: transfer,
+					transfer: transfer ? 'true' : 'false',
 				}
 			}];
 		}
