@@ -189,11 +189,11 @@ export async function executeAccountOperations(
 					receiver: account,
 					stake_net_quantity: `${netAmount} WAX`,
 					stake_cpu_quantity: `${cpuAmount} WAX`,
-					transfer: transfer ? 1 : 0,
+					transfer: transfer,
 				}
 			}];
 		}
-
+console.log(actions);
 		try {
 			// Setup eosjs
 			const key = credentials.privateKey as string;
