@@ -149,20 +149,9 @@ export async function executeAccountOperations(
 		// These operations require authentication
 		const credentials = await getCredentials(this);
 		const from = credentials.account as string;
-		const key = credentials.privateKey as string;
 
 		// Get operation parameters
 		const amount = this.getNodeParameter('amount', i) as number;
-
-		// Setup eosjs
-		const signatureProvider = new JsSignatureProvider([key]);
-		const rpc = new JsonRpc(endpoint, { fetch });
-		const api = new Api({
-			rpc,
-			signatureProvider,
-			textDecoder: new TextDecoder(),
-			textEncoder: new TextEncoder()
-		});
 
 		let actions: Array<any> = [];
 		let formattedAmount = '';
@@ -200,12 +189,23 @@ export async function executeAccountOperations(
 					receiver: account,
 					stake_net_quantity: `${netAmount} WAX`,
 					stake_cpu_quantity: `${cpuAmount} WAX`,
-					transfer: transfer ? 'true' : 'false',
+					transfer: transfer ? 1 : 0,
 				}
 			}];
 		}
 
 		try {
+			// Setup eosjs
+			const key = credentials.privateKey as string;
+			const signatureProvider = new JsSignatureProvider([key]);
+			const rpc = new JsonRpc(endpoint, { fetch });
+			const api = new Api({
+				rpc,
+				signatureProvider,
+				textDecoder: new TextDecoder(),
+				textEncoder: new TextEncoder()
+			});
+
 			// Execute the transaction
 			const result = await api.transact({
 				actions
