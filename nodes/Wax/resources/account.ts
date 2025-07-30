@@ -64,7 +64,7 @@ export const accountProperties: INodeProperties[] = [
 		},
 		description: 'WAX account name',
 	},
-	// Buy RAM parameters
+	// Buy/Stake parameters
 	{
 		displayName: 'Amount (WAX)',
 		name: 'amount',
@@ -78,6 +78,20 @@ export const accountProperties: INodeProperties[] = [
 			},
 		},
 		description: 'Amount of WAX',
+	},
+	{
+		displayName: 'Transfer Stake to New Account',
+		name: 'transfer',
+		type: 'boolean',
+		default: false,
+		required: true,
+		displayOptions: {
+			show: {
+				resource: ['account'],
+				operation: ['stakeCpu', 'stakeNet'],
+			},
+		},
+		description: 'Whether to transfer ownership of the staked tokens to the new account',
 	},
 ];
 
@@ -171,6 +185,8 @@ export async function executeAccountOperations(
 			// Format the amount with 8 decimal places for WAX
 			formattedAmount = amount.toFixed(8);
 
+			const transfer = this.getNodeParameter('transfer', i) as boolean;
+
 			// For staking, we need to specify how much goes to CPU and how much to NET
 			const cpuAmount = operation === 'stakeCpu' ? formattedAmount : '0.00000000';
 			const netAmount = operation === 'stakeNet' ? formattedAmount : '0.00000000';
@@ -184,7 +200,7 @@ export async function executeAccountOperations(
 					receiver: account,
 					stake_net_quantity: `${netAmount} WAX`,
 					stake_cpu_quantity: `${cpuAmount} WAX`,
-					transfer: 0, // 0 means don't transfer ownership of staked tokens
+					transfer: transfer,
 				}
 			}];
 		}
