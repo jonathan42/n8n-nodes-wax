@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-wax-shady",
-  "version": "0.2.0-beta.1",
+  "version": "0.2.0-beta.2",
   "description": "n8n Community Node Package for the WAX Blockchain Fork",
   "publishConfig": {
     "access": "public"
