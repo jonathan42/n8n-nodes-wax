@@ -10,6 +10,26 @@ import { Api, JsonRpc } from 'eosjs';
 import { JsSignatureProvider } from 'eosjs/dist/eosjs-jssig';
 import { TextEncoder, TextDecoder } from 'util';
 
+// Fonction pour convertir un nom de compte WAX en i64
+function nameToI64(name: string): string {
+	const chars = '.12345abcdefghijklmnopqrstuvwxyz';
+	let value = BigInt(0);
+
+	// Pad name to 12 characters with dots
+	name = name.padEnd(12, '.');
+
+	for (let i = 0; i < 12; i++) {
+		const char = name[i];
+		const charValue = chars.indexOf(char);
+		if (charValue === -1) {
+			throw new ApplicationError(`Invalid character in name: ${char}`);
+		}
+		value = value | (BigInt(charValue & 0x1f) << BigInt(64 - 5 * (i + 1)));
+	}
+
+	return value.toString();
+}
+
 // Type guard to check if a result is a transaction result
 function isWaxTransactionResult(result: any): result is {
 	transaction_id: string;
@@ -198,7 +218,7 @@ export class WaxSmartContract implements INodeType {
 						operation: ['getTable'],
 					},
 				},
-				description: 'Lower bound for the query (optional)',
+				description: 'Lower bound for the query (optional). Use account names for name type, numbers for i64.',
 			},
 			{
 				displayName: 'Upper Bound',
@@ -210,7 +230,7 @@ export class WaxSmartContract implements INodeType {
 						operation: ['getTable'],
 					},
 				},
-				description: 'Upper bound for the query (optional)',
+				description: 'Upper bound for the query (optional). Use account names for name type, numbers for i64.'
 			},
 			{
 				displayName: 'Limit',
@@ -237,6 +257,7 @@ export class WaxSmartContract implements INodeType {
 					{ name: 'I128', value: 'i128' },
 					{ name: 'I256', value: 'i256' },
 					{ name: 'I64', value: 'i64' },
+					{ name: 'Name', value: 'name' },
 					{ name: 'Ripemd160', value: 'ripemd160' },
 					{ name: 'Sha256', value: 'sha256' },
 				],
@@ -247,6 +268,19 @@ export class WaxSmartContract implements INodeType {
 					},
 				},
 				description: 'Type of the primary key',
+			},
+			{
+				displayName: 'Auto Convert Account Names',
+				name: 'autoConvert',
+				type: 'boolean',
+				default: true,
+				displayOptions: {
+					show: {
+						operation: ['getTable'],
+						keyType: ['i64'],
+					},
+				},
+				description: 'Whether to automatically convert account names in bounds to i64 format',
 			},
 			{
 				displayName: 'Index Position',
@@ -399,6 +433,7 @@ export class WaxSmartContract implements INodeType {
 					const limit = this.getNodeParameter('limit', i) as number;
 					const keyType = this.getNodeParameter('keyType', i) as string;
 					const indexPosition = this.getNodeParameter('indexPosition', i) as number;
+					const autoConvert = this.getNodeParameter('autoConvert', i) as boolean;
 
 					// Setup RPC connection
 					const rpc = new JsonRpc(endpoint, { fetch });
@@ -414,9 +449,40 @@ export class WaxSmartContract implements INodeType {
 						show_payer: false,
 					};
 
+					// Handle bounds with auto-conversion for i64
+					let processedLowerBound = lowerBound;
+					let processedUpperBound = upperBound;
+
+					if (keyType === 'i64' && autoConvert) {
+						// Check if bounds look like account names (contains letters, dots, numbers but not pure numbers)
+						if (lowerBound && !/^\d+$/.test(lowerBound) && /^[a-z1-5.]{1,12}$/.test(lowerBound)) {
+							try {
+								processedLowerBound = nameToI64(lowerBound);
+							} catch (error) {
+								throw new NodeOperationError(
+									this.getNode(),
+									`Failed to convert lower bound "${lowerBound}" to i64: ${error.message}`,
+									{ itemIndex: i }
+								);
+							}
+						}
+
+						if (upperBound && !/^\d+$/.test(upperBound) && /^[a-z1-5.]{1,12}$/.test(upperBound)) {
+							try {
+								processedUpperBound = nameToI64(upperBound);
+							} catch (error) {
+								throw new NodeOperationError(
+									this.getNode(),
+									`Failed to convert upper bound "${upperBound}" to i64: ${error.message}`,
+									{ itemIndex: i }
+								);
+							}
+						}
+					}
+
 					// Add optional parameters
-					if (lowerBound) queryParams.lower_bound = lowerBound;
-					if (upperBound) queryParams.upper_bound = upperBound;
+					if (processedLowerBound) queryParams.lower_bound = processedLowerBound;
+					if (processedUpperBound) queryParams.upper_bound = processedUpperBound;
 					if (keyType !== 'i64') queryParams.key_type = keyType;
 					if (indexPosition > 1) queryParams.index_position = indexPosition;
 
@@ -431,6 +497,15 @@ export class WaxSmartContract implements INodeType {
 							table: tableName,
 							scope,
 							queryParams,
+							originalBounds: {
+								lowerBound,
+								upperBound,
+							},
+							convertedBounds: {
+								lowerBound: processedLowerBound,
+								upperBound: processedUpperBound,
+							},
+							autoConvert,
 							rows: result.rows,
 							more: result.more,
 							next_key: result.next_key,
