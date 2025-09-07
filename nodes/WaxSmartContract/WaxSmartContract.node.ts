@@ -450,6 +450,7 @@ export class WaxSmartContract implements INodeType {
 						limit,
 						reverse: false,
 						show_payer: false,
+						index_position: indexPosition,
 					};
 
 					// Handle bounds with auto-conversion for i64
@@ -487,7 +488,7 @@ export class WaxSmartContract implements INodeType {
 					if (processedLowerBound) queryParams.lower_bound = processedLowerBound;
 					if (processedUpperBound) queryParams.upper_bound = processedUpperBound;
 					if (keyType !== 'i64') queryParams.key_type = keyType;
-					if (indexPosition > 1) queryParams.index_position = indexPosition;
+					if (indexPosition >= 1) queryParams.index_position = indexPosition;
 
 					// Execute the query
 					const result = await rpc.get_table_rows(queryParams);
