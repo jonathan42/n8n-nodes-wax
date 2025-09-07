@@ -451,6 +451,9 @@ export class WaxSmartContract implements INodeType {
 						reverse: false,
 						show_payer: false,
 						index_position: indexPosition,
+						key_type: keyType,
+						lower_bound : lowerBound,
+						upper_bound : upperBound
 					};
 
 					// Handle bounds with auto-conversion for i64
