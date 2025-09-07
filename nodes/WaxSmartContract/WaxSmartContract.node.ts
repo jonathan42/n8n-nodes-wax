@@ -11,7 +11,7 @@ import { JsSignatureProvider } from 'eosjs/dist/eosjs-jssig';
 import { TextEncoder, TextDecoder } from 'util';
 
 // Fonction pour convertir un nom de compte WAX en i64
-function nameToI64(name: string): string {
+function nameToI64(name: string, node: any): string {
 	const chars = '.12345abcdefghijklmnopqrstuvwxyz';
 	let value = BigInt(0);
 
@@ -22,7 +22,10 @@ function nameToI64(name: string): string {
 		const char = name[i];
 		const charValue = chars.indexOf(char);
 		if (charValue === -1) {
-			throw new ApplicationError(`Invalid character in name: ${char}`);
+			throw new NodeOperationError(
+				node,
+				`Invalid character in name: ${char}`
+			);
 		}
 		value = value | (BigInt(charValue & 0x1f) << BigInt(64 - 5 * (i + 1)));
 	}
@@ -457,8 +460,8 @@ export class WaxSmartContract implements INodeType {
 						// Check if bounds look like account names (contains letters, dots, numbers but not pure numbers)
 						if (lowerBound && !/^\d+$/.test(lowerBound) && /^[a-z1-5.]{1,12}$/.test(lowerBound)) {
 							try {
-								processedLowerBound = nameToI64(lowerBound);
-							} catch (error) {
+								processedLowerBound = nameToI64(lowerBound, this.getNode());
+							} catch (error: any) {
 								throw new NodeOperationError(
 									this.getNode(),
 									`Failed to convert lower bound "${lowerBound}" to i64: ${error.message}`,
@@ -469,8 +472,8 @@ export class WaxSmartContract implements INodeType {
 
 						if (upperBound && !/^\d+$/.test(upperBound) && /^[a-z1-5.]{1,12}$/.test(upperBound)) {
 							try {
-								processedUpperBound = nameToI64(upperBound);
-							} catch (error) {
+								processedUpperBound = nameToI64(upperBound, this.getNode());
+							} catch (error: any) {
 								throw new NodeOperationError(
 									this.getNode(),
 									`Failed to convert upper bound "${upperBound}" to i64: ${error.message}`,
