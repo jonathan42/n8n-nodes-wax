@@ -451,9 +451,9 @@ export class WaxSmartContract implements INodeType {
 						reverse: false,
 						show_payer: false,
 						index_position: indexPosition,
-						key_type: keyType,
-						lower_bound : lowerBound,
-						upper_bound : upperBound
+						key_type: "",
+						lower_bound : "",
+						upper_bound : ""
 					};
 
 					// Handle bounds with auto-conversion for i64
@@ -490,7 +490,7 @@ export class WaxSmartContract implements INodeType {
 					// Add optional parameters
 					if (processedLowerBound) queryParams.lower_bound = processedLowerBound;
 					if (processedUpperBound) queryParams.upper_bound = processedUpperBound;
-					if (keyType !== 'i64') queryParams.key_type = keyType;
+					if (keyType) queryParams.key_type = keyType;
 					if (indexPosition >= 1) queryParams.index_position = indexPosition;
 
 					// Execute the query
