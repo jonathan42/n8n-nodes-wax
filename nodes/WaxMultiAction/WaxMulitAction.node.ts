@@ -235,6 +235,17 @@ export class WaxMultiAction implements INodeType {
 					}
 				);
 
+				// Type guard to check if result is a transaction result
+				const isTransactionResult = (res: any): res is {
+					transaction_id: string;
+					processed: any;
+				} => {
+					return res &&
+						typeof res.transaction_id === 'string' &&
+						res.processed &&
+						typeof res.processed === 'object';
+				};
+
 				returnData.push({
 					json: {
 						success: true,
@@ -244,9 +255,12 @@ export class WaxMultiAction implements INodeType {
 							name: action.name,
 							authorization: action.authorization,
 						})),
-						transaction: {
+						transaction: isTransactionResult(result) ? {
 							transaction_id: result.transaction_id,
 							processed: result.processed,
+						} : {
+							result: result,
+							note: 'Transaction executed but response format may vary'
 						},
 					},
 				});
