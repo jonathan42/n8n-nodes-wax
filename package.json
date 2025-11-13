@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-wax-shady",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "description": "n8n Community Node Package for the WAX Blockchain Fork",
   "publishConfig": {
     "access": "public"
@@ -51,7 +51,7 @@
       "dist/nodes/WaxTransferToken/WaxTransferToken.node.js",
       "dist/nodes/WaxVerifyAddress/WaxVerifyAddress.node.js",
       "dist/nodes/WaxSmartContract/WaxSmartContract.node.js",
-      "dist/nodes/WaxMulitAction/WaxMultiAction.node.js"
+      "dist/nodes/WaxMultiAction/WaxMultiAction.node.js"
     ]
   },
   "devDependencies": {
